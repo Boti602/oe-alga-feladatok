@@ -35,7 +35,7 @@ namespace OE.ALGA.Paradigmak
                 throw new TaroloMegteltKivetel(); 
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public virtual IEnumerator<T> GetEnumerator()
         {
             FeladatTaroloBejaro<T> bejaro = new FeladatTaroloBejaro<T>(tarolo, n);
             return bejaro;

@@ -82,73 +82,73 @@ namespace OE.ALGA.Tesztek.Paradigmak
                 Assert.That(a2.Vegrehajtott, Is.True);
             });
         }
-//        [TestCase]
-//        public void FeltetelesFuggosegesVegrehajtas()
-//        {
-//            FeltetelesFeladatTarolo<TesztFuggoFeladat> tarolo = new FeltetelesFeladatTarolo<TesztFuggoFeladat>(10);
-//            TesztFuggoFeladat a1 = new TesztFuggoFeladat("a1") { Vegrehajthato = true };
-//            TesztFuggoFeladat b1 = new TesztFuggoFeladat("b1") { Vegrehajthato = true };
-//            TesztFuggoFeladat a2 = new TesztFuggoFeladat("a2") { Vegrehajthato = false };
-//            tarolo.Felvesz(a1);
-//            tarolo.Felvesz(b1);
-//            tarolo.Felvesz(a2);
-//            Assert.Multiple(() =>
-//            {
-//                Assert.That(a1.Vegrehajtott, Is.False);
-//                Assert.That(b1.Vegrehajtott, Is.False);
-//                Assert.That(a2.Vegrehajtott, Is.False);
-//            });
-//            tarolo.FeltetelesVegrehajtas(x => { Guardian.Recursion.CheckStackTrace(); return x.Azonosito[0] == 'a' && x.FuggosegTeljesul; }); // csak 'a' kezdetű és végrehajtható
-//            Assert.Multiple(() =>
-//            {
-//                Assert.That(a1.Vegrehajtott, Is.True);
-//                Assert.That(b1.Vegrehajtott, Is.False);
-//                Assert.That(a2.Vegrehajtott, Is.False);
-//            });
-//            tarolo.FeltetelesVegrehajtas(x => { Guardian.Recursion.CheckStackTrace(); return x.Azonosito[0] == 'b' && x.FuggosegTeljesul; }); // csak 'b' kezdetű és végrehajtható
-//            Assert.Multiple(() =>
-//            {
-//                Assert.That(a1.Vegrehajtott, Is.True);
-//                Assert.That(b1.Vegrehajtott, Is.True);
-//                Assert.That(a2.Vegrehajtott, Is.False);
-//            });
-//            a2.Vegrehajthato = true;
-//            tarolo.FeltetelesVegrehajtas(x => { Guardian.Recursion.CheckStackTrace(); return x.Azonosito[0] == 'a' && x.FuggosegTeljesul; }); // csak 'a' kezdetű és végrehajtható
-//            Assert.Multiple(() =>
-//            {
-//                Assert.That(a1.Vegrehajtott, Is.True);
-//                Assert.That(b1.Vegrehajtott, Is.True);
-//                Assert.That(a2.Vegrehajtott, Is.True);
-//            });
-//        }
-//        [TestCase]
-//        public void Bejaro()
-//        {
-//            FeltetelesFeladatTarolo<TesztFeladat> tarolo = new FeltetelesFeladatTarolo<TesztFeladat>(10);
-//            TesztFeladat a = new TesztFeladat("a");
-//            TesztFeladat b = new TesztFeladat("b");
-//            tarolo.Felvesz(a);
-//            tarolo.Felvesz(b);
-//            string nevek = "";
-//            foreach (TesztFeladat u in tarolo)
-//                nevek += u.Azonosito;
-//            Assert.That(nevek, Is.EqualTo("ab"));
-//        }
-//        [TestCase]
-//        public void FeltetelesBejaro()
-//        {
-//            FeltetelesFeladatTarolo<TesztFuggoFeladat> tarolo = new FeltetelesFeladatTarolo<TesztFuggoFeladat>(10);
-//            tarolo.BejaroFeltetel = (x => { Guardian.Recursion.CheckStackTrace(); return x.FuggosegTeljesul; });
-//            TesztFuggoFeladat a = new TesztFuggoFeladat("a") { Vegrehajthato = true };
-//            TesztFuggoFeladat b = new TesztFuggoFeladat("b") { Vegrehajthato = false };
-//            TesztFuggoFeladat c = new TesztFuggoFeladat("c") { Vegrehajthato = true };
-//            tarolo.Felvesz(a);
-//            tarolo.Felvesz(b);
-//            tarolo.Felvesz(c);
-//            string nevek = "";
-//            foreach (TesztFeladat u in tarolo)
-//                nevek += u.Azonosito;
-//            Assert.That(nevek, Is.EqualTo("ac"));
-//        }
+        [TestCase]
+        public void FeltetelesFuggosegesVegrehajtas()
+        {
+            FeltetelesFeladatTarolo<TesztFuggoFeladat> tarolo = new FeltetelesFeladatTarolo<TesztFuggoFeladat>(10);
+            TesztFuggoFeladat a1 = new TesztFuggoFeladat("a1") { Vegrehajthato = true };
+            TesztFuggoFeladat b1 = new TesztFuggoFeladat("b1") { Vegrehajthato = true };
+            TesztFuggoFeladat a2 = new TesztFuggoFeladat("a2") { Vegrehajthato = false };
+            tarolo.Felvesz(a1);
+            tarolo.Felvesz(b1);
+            tarolo.Felvesz(a2);
+            Assert.Multiple(() =>
+            {
+                Assert.That(a1.Vegrehajtott, Is.False);
+                Assert.That(b1.Vegrehajtott, Is.False);
+                Assert.That(a2.Vegrehajtott, Is.False);
+            });
+            tarolo.FeltetelesVegrehajtas(x => { Guardian.Recursion.CheckStackTrace(); return x.Azonosito[0] == 'a' && x.FuggosegTeljesul; }); // csak 'a' kezdetű és végrehajtható
+            Assert.Multiple(() =>
+            {
+                Assert.That(a1.Vegrehajtott, Is.True);
+                Assert.That(b1.Vegrehajtott, Is.False);
+                Assert.That(a2.Vegrehajtott, Is.False);
+            });
+            tarolo.FeltetelesVegrehajtas(x => { Guardian.Recursion.CheckStackTrace(); return x.Azonosito[0] == 'b' && x.FuggosegTeljesul; }); // csak 'b' kezdetű és végrehajtható
+            Assert.Multiple(() =>
+            {
+                Assert.That(a1.Vegrehajtott, Is.True);
+                Assert.That(b1.Vegrehajtott, Is.True);
+                Assert.That(a2.Vegrehajtott, Is.False);
+            });
+            a2.Vegrehajthato = true;
+            tarolo.FeltetelesVegrehajtas(x => { Guardian.Recursion.CheckStackTrace(); return x.Azonosito[0] == 'a' && x.FuggosegTeljesul; }); // csak 'a' kezdetű és végrehajtható
+            Assert.Multiple(() =>
+            {
+                Assert.That(a1.Vegrehajtott, Is.True);
+                Assert.That(b1.Vegrehajtott, Is.True);
+                Assert.That(a2.Vegrehajtott, Is.True);
+            });
+        }
+        [TestCase]
+        public void Bejaro()
+        {
+            FeltetelesFeladatTarolo<TesztFeladat> tarolo = new FeltetelesFeladatTarolo<TesztFeladat>(10);
+            TesztFeladat a = new TesztFeladat("a");
+            TesztFeladat b = new TesztFeladat("b");
+            tarolo.Felvesz(a);
+            tarolo.Felvesz(b);
+            string nevek = "";
+            foreach (TesztFeladat u in tarolo)
+                nevek += u.Azonosito;
+            Assert.That(nevek, Is.EqualTo("ab"));
+        }
+        [TestCase]
+        public void FeltetelesBejaro()
+        {
+            FeltetelesFeladatTarolo<TesztFuggoFeladat> tarolo = new FeltetelesFeladatTarolo<TesztFuggoFeladat>(10);
+            tarolo.BejaroFeltetel = (x => { Guardian.Recursion.CheckStackTrace(); return x.FuggosegTeljesul; });
+            TesztFuggoFeladat a = new TesztFuggoFeladat("a") { Vegrehajthato = true };
+            TesztFuggoFeladat b = new TesztFuggoFeladat("b") { Vegrehajthato = false };
+            TesztFuggoFeladat c = new TesztFuggoFeladat("c") { Vegrehajthato = true };
+            tarolo.Felvesz(a);
+            tarolo.Felvesz(b);
+            tarolo.Felvesz(c);
+            string nevek = "";
+            foreach (TesztFeladat u in tarolo)
+                nevek += u.Azonosito;
+            Assert.That(nevek, Is.EqualTo("ac"));
+        }
     }
 }

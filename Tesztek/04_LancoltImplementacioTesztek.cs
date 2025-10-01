@@ -187,21 +187,21 @@ namespace OE.ALGA.Tesztek.Adatszerkezetek
                 Assert.That(l.Kiolvas(2), Is.EqualTo(2));
             });
         }
-        //[TestCase]
-        //public void ForeachBejaras()
-        //{
-        //    LancoltLista<string> l = new LancoltLista<string>();
-        //    l.Hozzafuz("a");
-        //    l.Hozzafuz("c");
-        //    l.Hozzafuz("d");
-        //    l.Hozzafuz("b");
-        //    string osszefuzo = "";
-        //    foreach (string x in l)
-        //    {
-        //        osszefuzo += x;
-        //    }
-        //    Assert.That(osszefuzo, Is.EqualTo("acdb"));
-        //}
+        [TestCase]
+        public void ForeachBejaras()
+        {
+            LancoltLista<string> l = new LancoltLista<string>();
+            l.Hozzafuz("a");
+            l.Hozzafuz("c");
+            l.Hozzafuz("d");
+            l.Hozzafuz("b");
+            string osszefuzo = "";
+            foreach (string x in l)
+            {
+                osszefuzo += x;
+            }
+            Assert.That(osszefuzo, Is.EqualTo("acdb"));
+        }
     }
 
     [TestFixture(Category = "Adatszerkezetek", TestName = "04 - Lancolt Sor Tesztek")]

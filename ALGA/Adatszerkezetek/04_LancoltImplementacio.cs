@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace OE.ALGA.Adatszerkezetek
 {
     // 4. heti labor feladat - Tesztek: 04_LancoltImplementacioTesztek.cs
 
-    internal class LancElem<T>
+    public class LancElem<T>
     {
         public T tart;
         public LancElem<T> kov;
@@ -131,7 +133,7 @@ namespace OE.ALGA.Adatszerkezetek
         }
     }
 
-    public class LancoltLista<T> : Lista<T>
+    public class LancoltLista<T> : Lista<T>, IEnumerable<T>
     {
         LancElem<T>? fej;
         public LancoltLista()
@@ -193,6 +195,11 @@ namespace OE.ALGA.Adatszerkezetek
                     throw new HibasIndexKivetel();
                 }
             }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new LancoltListaBejaro<T>(fej);
         }
 
         public void Hozzafuz(T ertek)
@@ -279,6 +286,57 @@ namespace OE.ALGA.Adatszerkezetek
                         p = q;
                     }
             } while(p != null);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public class LancoltListaBejaro<T> : IEnumerator<T>
+    {
+        LancElem<T>? fej;
+        LancElem<T>? aktualisElem;
+
+        public LancoltListaBejaro(LancElem<T>? fej)
+        {
+            this.fej = fej;
+            this.aktualisElem = null;
+        }
+
+        public T Current
+        {
+            get
+            {
+                return aktualisElem.tart;
+            }
+        }
+
+        object IEnumerator.Current => throw new NotImplementedException();
+
+        public void Dispose()
+        {
+           
+        }
+
+        public bool MoveNext()
+        {
+            if(aktualisElem == null)
+            {
+                aktualisElem = fej;
+            }
+            else
+            {
+                aktualisElem = aktualisElem.kov;
+            }
+
+            return aktualisElem != null;
+        }
+
+        public void Reset()
+        {
+            aktualisElem = null;
         }
     }
 }

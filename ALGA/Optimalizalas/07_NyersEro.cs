@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 
 namespace OE.ALGA.Optimalizalas
 {
@@ -75,6 +76,12 @@ namespace OE.ALGA.Optimalizalas
 
         public T OptimalisMegoldas()
         {
+            if (m <= 0)
+            {
+                LepesSzam = 0;
+                return generator(1); 
+            }
+
             T o = generator(1);
             for(int i = 1; i < m; i++)
             {
@@ -91,15 +98,18 @@ namespace OE.ALGA.Optimalizalas
 
     public class NyersEroHatizsakPakolas
     {
-        public int LepesSzam { get; }
+        public int LepesSzam { get; private set; }
+        private bool[] optimalisPakolas;
         HatizsakProblema problema;
+        private float optimalisErtek;
+        private bool kiszamolva = false;
 
         public NyersEroHatizsakPakolas(HatizsakProblema problema)
         {
             this.problema = problema;
         }
 
-        public static bool[] Generator(int i, int n)
+        public bool[] Generator(int i, int n)
         {
             bool[] K = new bool[n];
             int szam = i - 1;
@@ -112,7 +122,52 @@ namespace OE.ALGA.Optimalizalas
             return K;
         }
 
+        public float Josag(bool[] pakolas)
+        {
+            if(!problema.Ervenyes(pakolas))
+            {
+                return -1;
+            }else
+            {
+                return problema.OsszErtek(pakolas);
+            }
+        }
 
 
+        public bool[] OptimalisMegoldas()
+        {
+            if (kiszamolva)
+                return optimalisPakolas ?? Array.Empty<bool>();
+
+            if (problema.n == 0)
+            {
+                LepesSzam = 0;
+                optimalisPakolas = Array.Empty<bool>();
+                optimalisErtek = 0;
+                kiszamolva = true;
+                return optimalisPakolas;
+            }
+
+            int m = (int)Math.Pow(2, problema.n);
+            var nyersEro = new NyersEro<bool[]>(m,
+                i => Generator(i, problema.n),
+                Josag);
+
+            bool[] optimalis = nyersEro.OptimalisMegoldas();
+            this.LepesSzam = nyersEro.LepesSzam;
+            this.optimalisPakolas = optimalis;
+            this.optimalisErtek = problema.OsszErtek(optimalis);
+            this.kiszamolva = true;
+
+            return optimalis;
+        }
+
+        public float OptimalisErtek()
+        {
+            if (!kiszamolva)
+                OptimalisMegoldas();
+
+            return optimalisErtek;
+        }
     }
 }

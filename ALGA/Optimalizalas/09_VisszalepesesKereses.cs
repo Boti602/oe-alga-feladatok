@@ -264,40 +264,16 @@ namespace OE.ALGA.Optimalizalas
                     return (float)ertek;
                 };
 
-                // felső becslés a JEGYZET szerinti lineáris "tört hátizsákkal" (NEM rendezünk!)
-                Func<int, bool[], float> fb = (szint, E) =>
+            // felső becslés a JEGYZET szerinti lineáris "tört hátizsákkal" (NEM rendezünk!)
+            Func<int, bool[], float> fb = (level, list) =>
+            {
+                float excepted = 0;
+                for (int i = level; i < problema.n; i++)
                 {
-                    // eddigi súly csak a már rögzített döntésekből (0..szint)
-                    double suly = 0.0;
-                    for (int i = 0; i <= szint; i++)
-                        if (E[i]) suly += problema.w[i];
-
-                    double marad = problema.Wmax - suly;
-                    if (marad <= 0.0) return 0f;
-
-                    double plusz = 0.0;
-
-                    // a hátralévő tárgyakat j = szint+1..n-1 sorrendben próbáljuk kitölteni
-                    for (int j = szint + 1; j < n && marad > 0.0; j++)
-                    {
-                        double wj = problema.w[j];
-                        double pj = problema.p[j];
-
-                        if (wj <= marad)
-                        {
-                            plusz += pj;
-                            marad -= wj;
-                        }
-                        else
-                        {
-                            // TÖRT rész – ügyeljünk a lebegőpontos osztásra!
-                            plusz += (pj / wj) * marad;
-                            break;
-                        }
-                    }
-
-                    return (float)plusz;
-                };
+                    if (problema.OsszSuly(list) + problema.w[i] <= problema.Wmax) excepted += problema.p[i];
+                }
+                return excepted;
+            };
 
                 var opt = new SzetvalasztasEsKorlatozasOptimalizacio<bool>(n, M, R, ft, fk, josag, fb);
                 var megoldas = opt.OptimalisMegoldas();

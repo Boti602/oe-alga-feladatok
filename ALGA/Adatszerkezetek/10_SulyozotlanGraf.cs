@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace OE.ALGA.Adatszerkezetek
@@ -127,13 +128,49 @@ namespace OE.ALGA.Adatszerkezetek
         {
             Sor<V> S = new LancoltSor<V>();
             Halmaz<V> F = new FaHalmaz<V>();
-            while(S!=null)
+
+            S.Sorba(start);
+            F.Beszur(start);
+
+            while(!S.Ures)
             {
-                V k;
-                
+                V k = S.Sorbol();
+                muvelet(k);
+
+                Halmaz<V> szomszedok = g.Szomszedai(k);
+
+                szomszedok.Bejar(x =>
+                {
+                    if(!F.Eleme(x))
+                    {
+                        S.Sorba(x);
+                        F.Beszur(x);
+                    }
+                });
             }
             return F;
         }
-    }
 
+        public static Halmaz<V> MelysegiBejaras<V, E>(Graf<V, E> g, V start, Action<V> muvelet) where V : IComparable<V>
+        {
+           Halmaz<V> F = new FaHalmaz<V>();
+           MelysegiBejarasRekurzio(g, start, F, muvelet);
+           return F;
+        }
+
+        public static void MelysegiBejarasRekurzio<V,E>(Graf<V, E> g, V k, Halmaz<V> F, Action<V> muvelet)
+        {
+            F.Beszur(k);
+            muvelet(k);
+
+            Halmaz<V> szomszedok = g.Szomszedai(k);
+            szomszedok.Bejar(x =>
+            {
+                if(!F.Eleme(x))
+                {
+                    MelysegiBejarasRekurzio(g, x, F, muvelet);
+                }
+            });
+        }
+    }
 }

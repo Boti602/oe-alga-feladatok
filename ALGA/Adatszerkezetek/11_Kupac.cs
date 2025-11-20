@@ -84,5 +84,84 @@ namespace OE.ALGA.Adatszerkezetek
         }
     }
 
+    public class KupacPrioritasosSor<T> : Kupac<T>, PrioritasosSor<T>
+    {
+        public KupacPrioritasosSor(int meret, Func<T, T, bool> nagyobbPrioritas) : base(new T[meret], 0, nagyobbPrioritas)
+        {
+            
+        }
 
+        public bool Ures => n == 0;
+
+        public T Elso()
+        {
+            if (!Ures)
+            {
+                return E[0];
+            }
+            else
+            {
+                throw new NincsElemKivetel();
+            }
+        }
+
+        public void Frissit(T elem)
+        {
+            int i = 0;
+            while (i <= n&& !E[i].Equals(elem))
+            {
+                i++;
+            }
+            if(i<=n)
+            {
+                KulcsotFelvisz(i);
+                Kupacol(i);
+            }
+            else
+            {
+                throw new NincsElemKivetel();
+            }
+        }
+
+        public void Sorba(T ertek)
+        {
+            if(n < E.Length)
+            {
+                n++;
+                E[n-1] = ertek;
+                KulcsotFelvisz(n-1);
+            }
+            else
+            {
+                throw new NincsHelyKivetel();
+            }
+        }
+
+        public T Sorbol()
+        {
+            T max;
+            if (!Ures)
+            {
+                max = E[0];
+                E[0] = E[n-1];
+                n--;
+                Kupacol(0);
+                return max;
+            }
+            else
+            {
+                throw new NincsElemKivetel();
+            }
+        }
+
+        private void KulcsotFelvisz(int i)
+        {
+            int sz = Szulo(i);
+            if(sz>=0 && nagyobbPrioritas(E[i], E[sz]))
+            {
+                (E[sz], E[i]) = (E[i], E[sz]);
+                KulcsotFelvisz(sz);
+            }
+        }
+    }
 }

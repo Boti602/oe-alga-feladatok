@@ -52,7 +52,7 @@ namespace OE.ALGA.Adatszerkezetek
             {
                 int elekSzama = 0;
                 for (int i = 0; i < n; i++)
-                {
+                {   
                     for (int j = 0; j < n; j++)
                     {
                         if(M[i,j]) elekSzama++;
@@ -89,7 +89,7 @@ namespace OE.ALGA.Adatszerkezetek
                             elek.Beszur(new EgeszGrafEl(i,j));
                         }
                     }
-                }
+                }   
                 return elek;
             }
         }
